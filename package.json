@@ -1,0 +1,22 @@
+{
+  "name": "momentjs-rental-business",
+  "version": "0.1.0",
+  "description": "Fork of momentjs-business to support Saturdays and rental day breakdown",
+  "main": "momentjs-rental-business.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thisiskeith/momentjs-business.git"
+  },
+  "author": "leonardosantos",
+  "contributors": [{
+    "name": "Keith Hansen"
+  }],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thisiskeith/momentjs-business/issues"
+  },
+  "homepage": "https://github.com/thisiskeith/momentjs-business"
+}
