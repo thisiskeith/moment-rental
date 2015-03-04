@@ -7,6 +7,9 @@
     moment = (typeof require !== "undefined" && require !== null) &&
            !require.amd ? require("moment") : this.moment;
 
+    /**
+     * Unused, may delete
+     */
     moment.fn.businessDiff = function (param) {
 
         param = moment(param);
@@ -45,7 +48,7 @@
      * @param  {bool}    saturdays Include Saturdays, default: false
      * @return {object}            Moment object
      */
-    moment.fn.businessAdd = function (days, saturdays) {
+    moment.fn.rentalAdd = function (days, saturdays) {
 
         saturdays = saturdays || false;
 
@@ -84,11 +87,91 @@
      * @param  {bool}   saturdays Include Saturdays, default: false
      * @return {object}           Moment object
      */
-    moment.fn.businessSubtract = function (days, saturdays) {
+    moment.fn.rentalSubtract = function (days, saturdays) {
 
         saturdays = saturdays || false;
 
         return this.businessAdd(-days, saturdays);
+    };
+
+    /**
+     * Get rental days between end date and start date
+     * @param  {object} startDate Moment object
+     * @param  {bool}   saturdays Include Saturdays, default: false
+     * @return {object}           Rental days total and breakdown by day, week, fourWeek
+     */
+    moment.fn.rentalDays = function (startDate, saturdays) {
+
+        saturdays = saturdays || false;
+
+        var rentalDays = 0;
+        var days = 0;
+        var weeks = 0;
+        var fourWeeks = 0;
+
+        // Get day difference
+        rentalDays = this.clone().diff(startDate, 'days');
+
+        var start = moment(startDate);
+        var remaining = rentalDays;
+
+        // Filter Sundays, Saturdays (optional)
+        while (remaining) {
+
+            start.add(1, 'd');
+
+            if (start.day() === 0) {
+                rentalDays -= 1;
+            } else if (start.day() === 6 && !saturdays) {
+                rentalDays -= 1;
+            }
+
+            remaining -= 1;
+        }
+
+        // Break down rental days into day, week, fourWeek
+        days = rentalDays;
+
+        // Determine fourWeeks
+        if (days > 24) {
+
+            var factor = 25;
+
+            if (days > 27) {
+                 factor = 28;
+            } else if (days > 26) {
+                factor = 27;
+            } else if (days > 25) {
+                 factor = 26;
+            }
+
+            fourWeeks = Math.floor(days / factor);
+            days = (days % factor);
+        }
+
+        // Determine weeks
+        if (days > 3) {
+
+            var factor = 4;
+
+            if (days > 6) {
+                 factor = 7;
+            } else if (days > 5) {
+                factor = 6;
+            } else if (days > 4) {
+                 factor = 5;
+            }
+
+            weeks = Math.floor(days / factor);
+            days = (days % factor);
+        }
+
+        return {
+            rentalDays: rentalDays,
+            days: days,
+            weeks: weeks,
+            fourWeeks: fourWeeks
+        };
     };
 
     /**
