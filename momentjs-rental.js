@@ -2,10 +2,9 @@
 
 (function () {
 
-    var moment;
-
-    moment = (typeof require !== "undefined" && require !== null) &&
-           !require.amd ? require("moment") : this.moment;
+    var moment = (typeof require !== "undefined" && require !== null) && !require.amd
+        ? require("moment")
+        : this.moment;
 
     /**
      * Add days to current moment time object. Saturday exluded by
