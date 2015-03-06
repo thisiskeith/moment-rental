@@ -10,9 +10,10 @@
     "type": "git",
     "url": "git://github.com/thisiskeith/momentjs-rental.git"
   },
-  "contributors": [{
-    "name": "Keith Hansen"
-  }],
+  "contributors": [
+    { "name": "leonardosantos" },
+    { "name": "thisiskeith" }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/thisiskeith/momentjs-rental/issues"

@@ -8,40 +8,6 @@
            !require.amd ? require("moment") : this.moment;
 
     /**
-     * Unused, may delete
-     */
-    moment.fn.businessDiff = function (param) {
-
-        param = moment(param);
-
-        var signal = param.unix() < this.unix()?1:-1;
-        var start = moment.min(param, this).clone();
-        var end = moment.max(param, this).clone();
-        var start_offset = start.day() - 7;
-        var end_offset = end.day();
-        var end_sunday = end.clone().subtract('d', end_offset);
-        var start_sunday = start.clone().subtract('d', start_offset);
-        var weeks = end_sunday.diff(start_sunday, 'days') / 7;
-
-        start_offset = Math.abs(start_offset);
-
-        if (start_offset === 7) {
-            start_offset = 5;
-        } else if (start_offset === 1) {
-            start_offset = 0;
-        } else {
-            start_offset -= 2;
-        }
-
-
-        if(end_offset == 6) {
-            end_offset--;
-        }
-
-        return signal * (weeks * 5 + start_offset + end_offset);
-    };
-
-    /**
      * Add days to current moment time object. Saturday exluded by
      * default, but can be reintroduced
      * @param  {integer} days      Days to add
@@ -120,10 +86,8 @@
 
             start.add(1, 'd');
 
-            if (start.day() === 0) {
-                rentalDays -= 1;
-            } else if (start.day() === 6 && !saturdays) {
-                rentalDays -= 1;
+            if (start.day() === 0 || start.day() === 6 && !saturdays) {
+                continue;
             }
 
             remaining -= 1;
@@ -132,45 +96,60 @@
         // Break down rental days into day, week, fourWeek
         days = rentalDays;
 
-        // Determine fourWeeks
-        if (days > 24) {
+        // Count fourWeeks
+        var fourWeeksObj = this.getCalendarDuration(days, fourWeeks, 25);
 
-            var factor = 25;
+        // Update days and fourWeeks count
+        days = fourWeeksObj.days;
+        fourWeeks = fourWeeksObj.duration;
 
-            if (days > 27) {
-                 factor = 28;
-            } else if (days > 26) {
-                factor = 27;
-            } else if (days > 25) {
-                 factor = 26;
-            }
+        // Count weeks
+        var weeksObj = this.getCalendarDuration(days, weeks, 4);
 
-            fourWeeks = Math.floor(days / factor);
-            days = (days % factor);
-        }
-
-        // Determine weeks
-        if (days > 3) {
-
-            var factor = 4;
-
-            if (days > 6) {
-                 factor = 7;
-            } else if (days > 5) {
-                factor = 6;
-            } else if (days > 4) {
-                 factor = 5;
-            }
-
-            weeks = Math.floor(days / factor);
-            days = (days % factor);
-        }
+        // Update days and weeks count
+        days = weeksObj.days;
+        weeks = weeksObj.duration;
 
         return {
             rentalDays: rentalDays,
             days: days,
             weeks: weeks,
             fourWeeks: fourWeeks
+        };
+    };
+
+    /**
+     * Get calendar duration to determine how many week or 4 week periods there
+     * are for a given amount of rental days
+     * @param  {integer} days     Number of days
+     * @param  {integer} duration Calendar duration, week or 4 week
+     * @param  {integer} factor   The factor in which to apply the duration against
+     * @return {object}           New days count and duration
+     */
+    moment.fn.getCalendarDuration = function (days, duration, factor) {
+
+        var newFactor = factor;
+
+        if (days > (newFactor - 1)) {
+
+            if (days > (newFactor + 2)) {
+                newFactor += 3;
+            } else if (days > (newFactor + 1)) {
+                newFactor += 2;
+            } else if (days > newFactor) {
+                newFactor += 1;
+            }
+
+            duration += Math.floor(days / newFactor);
+            days = (days % newFactor);
+
+            // Recurse
+            return this.getCalendarDuration(days, duration, factor);
+        }
+
+        return {
+            days: days,
+            duration: duration
         };
     };
 
