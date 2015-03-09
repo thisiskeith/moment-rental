@@ -7,6 +7,43 @@
         : this.moment;
 
     /**
+     * Difference between rental dates
+     * @param  {string} startDate Start date
+     * @param  {bool}   saturdays Include Saturdays, default: false
+     * @return {integer}          Difference in days
+     */
+    moment.fn.rentalDiff = function (startDate, saturdays) {
+
+        startDate = moment(startDate);
+
+        var start = startDate;
+        var end = this;
+
+        var start_offset = start.day() - 7;
+        var end_offset = end.day();
+        var end_sunday = end.clone().subtract(end_offset, 'd');
+        var start_sunday = start.clone().subtract(start_offset, 'd');
+        var weeks = end_sunday.diff(start_sunday, 'days') / 7;
+
+        start_offset = Math.abs(start_offset);
+
+        if (start_offset === 7) {
+            start_offset = 5;
+        } else if(start_offset === 1) {
+            start_offset = 0;
+        } else {
+            start_offset += (saturdays) ? weeks - 1 : -2;
+        }
+
+        // Exclude Saturday
+        if (end_offset === 6 && !saturdays) {
+            end_offset -= 1;
+        }
+
+        return (weeks * 5) + start_offset + end_offset;
+    };
+
+    /**
      * Add days to current moment time object. Saturday exluded by
      * default, but can be reintroduced
      * @param  {integer} days      Days to add
@@ -37,9 +74,12 @@
 
             d.add(signal, 'd');
 
-            if (d.day() !== 0 && d.day() !== (week + 1)) {
-                remaining--;
+            // Skip Saturdays and/or Sundays
+            if (d.day() === 0 || d.day() === 6 && !saturdays) {
+                continue;
             }
+
+            remaining -= 1;
         }
 
         return d;
@@ -61,7 +101,7 @@
 
     /**
      * Get rental days between end date and start date
-     * @param  {object} startDate Moment object
+     * @param  {string} startDate Start date
      * @param  {bool}   saturdays Include Saturdays, default: false
      * @return {object}           Rental days total and breakdown by day, week, fourWeek
      */
@@ -74,8 +114,19 @@
         var weeks = 0;
         var fourWeeks = 0;
 
+        // Return default
+        if (typeof this !== 'object' || typeof startDate !== 'string'
+                || this.format('YYYY-MM-DD') === startDate) {
+            return {
+                rentalDays: rentalDays,
+                days: days,
+                weeks: weeks,
+                fourWeeks: fourWeeks
+            };
+        }
+
         // Get day difference
-        rentalDays = this.clone().diff(startDate, 'days');
+        rentalDays = this.clone().rentalDiff(startDate, saturdays);
 
         var start = moment(startDate);
         var remaining = rentalDays;
@@ -84,10 +135,6 @@
         while (remaining) {
 
             start.add(1, 'd');
-
-            if (start.day() === 0 || start.day() === 6 && !saturdays) {
-                continue;
-            }
 
             remaining -= 1;
         }
