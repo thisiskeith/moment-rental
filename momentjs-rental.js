@@ -8,17 +8,17 @@
 
     /**
      * Difference between rental dates
-     * @param  {string} startDate Start date
-     * @param  {bool}   saturdays Include Saturdays, default: false
-     * @return {integer}          Difference in days
+     * @param  {string} startInstant Start date time
+     * @param  {bool}   saturdays    Include Saturdays, default: false
+     * @return {integer}             Difference in days
      */
-    moment.fn.rentalDiff = function (startDate, saturdays) {
+    moment.fn.rentalDiff = function (startInstant, saturdays) {
 
-        startDate = moment(startDate);
+        startInstant = moment(startInstant);
 
-        var start = startDate;
+        var diff = 0;
         var end = this;
-
+        var start = startInstant;
         var start_offset = start.day() - 7;
         var end_offset = end.day();
         var end_sunday = end.clone().subtract(end_offset, 'd');
@@ -40,7 +40,18 @@
             end_offset -= 1;
         }
 
-        return (weeks * 5) + start_offset + end_offset;
+        // Day diff
+        diff = (weeks * 5) + start_offset + end_offset;
+
+        // Floor fractions due to date time combo
+        diff = Math.floor(diff);
+
+        // Add an additional day if there is a > 24hr time offset
+        if ((this.diff(start, 'minutes') % 1440) > 0) {
+            diff += 1;
+        }
+
+        return diff;
     };
 
     /**
@@ -100,12 +111,12 @@
     };
 
     /**
-     * Get rental days between end date and start date
-     * @param  {string} startDate Start date
-     * @param  {bool}   saturdays Include Saturdays, default: false
-     * @return {object}           Rental days total and breakdown by day, week, fourWeek
+     * Get rental days between end date time and start date time
+     * @param  {string} startInstant Start date time
+     * @param  {bool}   saturdays    Include Saturdays, default: false
+     * @return {object}              Rental days total and breakdown by day, week, fourWeek
      */
-    moment.fn.rentalDays = function (startDate, saturdays) {
+    moment.fn.rentalDays = function (startInstant, saturdays) {
 
         saturdays = saturdays || false;
 
@@ -115,8 +126,8 @@
         var fourWeeks = 0;
 
         // Return default
-        if (typeof this !== 'object' || typeof startDate !== 'string'
-                || this.format('YYYY-MM-DD') === startDate) {
+        if (typeof this !== 'object' || typeof startInstant !== 'string'
+                || this.format('YYYY-MM-DD HH:mm') === startInstant) {
             return {
                 rentalDays: rentalDays,
                 days: days,
@@ -126,9 +137,9 @@
         }
 
         // Get day difference
-        rentalDays = this.clone().rentalDiff(startDate, saturdays);
+        rentalDays = this.clone().rentalDiff(startInstant, saturdays);
 
-        var start = moment(startDate);
+        var start = moment(startInstant);
         var remaining = rentalDays;
 
         // Filter Sundays, Saturdays (optional)
