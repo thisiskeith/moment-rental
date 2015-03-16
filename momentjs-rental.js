@@ -96,19 +96,6 @@
         return d;
     };
 
-    /**
-     * Difference between two dates. Saturday excluded by default, but can be
-     * reintroduced
-     * @param  {object} days      Moment object
-     * @param  {bool}   saturdays Include Saturdays, default: false
-     * @return {object}           Moment object
-     */
-    moment.fn.rentalSubtract = function (days, saturdays) {
-
-        saturdays = saturdays || false;
-
-        return this.businessAdd(-days, saturdays);
-    };
 
     /**
      * Get rental days between end date time and start date time
@@ -211,7 +198,7 @@
     };
 
     /**
-     * NodeJS environment handler
+     * CommonJS
      */
     if (typeof module !== 'undefined' && module && module.exports) {
         module.exports = moment;
