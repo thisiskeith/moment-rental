@@ -56,11 +56,11 @@ moment('2015-02-04').rentalAdd(3, true).format('MM-DD-YYYY');
 #### Get rental day breakdown
 ```js
 moment('2015-02-12 08:00').rentalDays('2015-02-04 08:00');
-// { days: 0, fourWeeks: 0, rentalDays: 6, weeks: 1 }
+// { Day: 0, FourWeek: 0, RentalDays: 6, Week: 1 }
 ```
 #### Get rental day breakdown including Saturdays
 ```js
 moment('2015-02-12 08:00').rentalDays('2015-02-04 08:00', true);
-// { days: 0, fourWeeks: 0, rentalDays: 7, weeks: 1 }
+// { Day: 0, FourWeek: 0, RentalDays: 7, Week: 1 }
 ```
 

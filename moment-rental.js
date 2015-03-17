@@ -116,10 +116,10 @@
         if (typeof this !== 'object' || typeof startInstant !== 'string'
                 || this.format('YYYY-MM-DD HH:mm') === startInstant) {
             return {
-                rentalDays: rentalDays,
-                days: days,
-                weeks: weeks,
-                fourWeeks: fourWeeks
+                RentalDays: rentalDays,
+                Day: days,
+                Week: weeks,
+                FourWeek: fourWeeks
             };
         }
 
@@ -155,10 +155,10 @@
         weeks = weeksObj.duration;
 
         return {
-            rentalDays: rentalDays,
-            days: days,
-            weeks: weeks,
-            fourWeeks: fourWeeks
+            RentalDays: rentalDays,
+            Day: days,
+            Week: weeks,
+            FourWeek: fourWeeks
         };
     };
 
