@@ -1,14 +1,14 @@
 {
-  "name": "momentjs-rental",
-  "version": "0.1.0",
-  "description": "Fork of momentjs-business to support Saturdays and rental day breakdown",
-  "main": "momentjs-rental.js",
+  "name": "moment-rental",
+  "version": "0.1.1",
+  "description": "Fork of moment-business to support Saturdays and rental day breakdown",
+  "main": "moment-rental.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/thisiskeith/momentjs-rental.git"
+    "url": "git://github.com/thisiskeith/moment-rental.git"
   },
   "contributors": [
     {
@@ -20,9 +20,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/thisiskeith/momentjs-rental/issues"
+    "url": "https://github.com/thisiskeith/moment-rental/issues"
   },
-  "homepage": "https://github.com/thisiskeith/momentjs-rental",
+  "homepage": "https://github.com/thisiskeith/moment-rental",
   "devDependencies": {
     "jest-cli": "^0.4.0"
   },
