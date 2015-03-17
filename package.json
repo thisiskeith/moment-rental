@@ -1,6 +1,6 @@
 {
   "name": "moment-rental",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Fork of moment-business to support Saturdays and rental day breakdown",
   "main": "moment-rental.js",
   "scripts": {
