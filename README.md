@@ -1,4 +1,4 @@
-# momentjs-rental
+# moment-rental
 
 #### Summary
 Extends Moment.js to properly calculate the number of rental days between two given dates
@@ -28,7 +28,7 @@ moment(endDate).rentalDays(startDate[, saturdays]);
 #### Add dependency to package.json
 ```js
 "dependencies": {
-    "momentjs-rental": "git+ssh://git@github.com:thisiskeith/momentjs-rental.git"
+    "moment-rental": "git+ssh://git@github.com:thisiskeith/moment-rental.git"
 }
 ```
 #### Add to application
