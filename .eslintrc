@@ -1,0 +1,13 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "rules": {
+        "curly": 2,
+        "quotes": [1, "single"],
+        "no-alert": 0,
+        "no-loop-func": 0,
+        "no-underscore-dangle": 0
+    }
+}

@@ -2,8 +2,8 @@
 
 (function () {
 
-    var moment = (typeof require !== "undefined" && require !== null) && !require.amd
-        ? require("moment")
+    var moment = (typeof require !== 'undefined' && require !== null) && !require.amd
+        ? require('moment')
         : this.moment;
 
     /**
@@ -19,29 +19,29 @@
         var diff = 0;
         var end = this;
         var start = startInstant;
-        var start_offset = start.day() - 7;
-        var end_offset = end.day();
-        var end_sunday = end.clone().subtract(end_offset, 'd');
-        var start_sunday = start.clone().subtract(start_offset, 'd');
-        var weeks = end_sunday.diff(start_sunday, 'days') / 7;
+        var startOffset = start.day() - 7;
+        var endOffset = end.day();
+        var endSunday = end.clone().subtract(endOffset, 'd');
+        var startSunday = start.clone().subtract(startOffset, 'd');
+        var weeks = endSunday.diff(startSunday, 'days') / 7;
 
-        start_offset = Math.abs(start_offset);
+        startOffset = Math.abs(startOffset);
 
-        if (start_offset === 7) {
-            start_offset = 5;
-        } else if(start_offset === 1) {
-            start_offset = 0;
+        if (startOffset === 7) {
+            startOffset = 5;
+        } else if(startOffset === 1) {
+            startOffset = 0;
         } else {
-            start_offset += (saturdays) ? weeks - 1 : -2;
+            startOffset += (saturdays) ? weeks - 1 : -2;
         }
 
         // Exclude Saturday
-        if (end_offset === 6 && !saturdays) {
-            end_offset -= 1;
+        if (endOffset === 6 && !saturdays) {
+            endOffset -= 1;
         }
 
         // Day diff
-        diff = (weeks * 5) + start_offset + end_offset;
+        diff = (weeks * 5) + startOffset + endOffset;
 
         // Floor fractions due to date time combo
         diff = Math.floor(diff);
@@ -74,7 +74,7 @@
         }
 
         // Add or subtract days
-        var signal = (days < 0) ? - 1 : 1;
+        var signal = (days < 0) ? -1 : 1;
 
         days = Math.abs(days);
 
@@ -200,4 +200,4 @@
         module.exports = moment;
     }
 
-}).call(this);
+}.call(this));
