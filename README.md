@@ -38,7 +38,7 @@ npm install
 #### Require in project
 ```js
 var moment = require('moment');
-var momentRental = require('moment-rental');
+require('moment-rental');
 ```
 
 ## Examples
