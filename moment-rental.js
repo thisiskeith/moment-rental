@@ -141,7 +141,7 @@
         days = rentalDays;
 
         // Count fourWeeks
-        var fourWeeksObj = this.getCalendarDuration(days, fourWeeks, 25);
+        var fourWeeksObj = this.getCalendarDuration(days, fourWeeks, 19);
 
         // Update days and fourWeeks count
         days = fourWeeksObj.days;
@@ -176,11 +176,7 @@
 
         if (days > (newFactor - 1)) {
 
-            if (days > (newFactor + 2)) {
-                newFactor += 3;
-            } else if (days > (newFactor + 1)) {
-                newFactor += 2;
-            } else if (days > newFactor) {
+            if (days > newFactor) {
                 newFactor += 1;
             }
 

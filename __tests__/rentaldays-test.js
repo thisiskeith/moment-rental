@@ -1,37 +1,56 @@
 jest.dontMock('moment');
-jest.dontMock('../momentjs-rental');
+jest.dontMock('../moment-rental');
 
 describe('rentalDays', function () {
 
-     it('gets rental day breakdown between 2015-02-04 and 2015-02-12', function () {
+    var moment;
 
-        var moment = require('moment');
-        var momentRental = require('../momentjs-rental');
+    beforeEach(function () {
+        moment = require('moment');
+        require('../moment-rental');
+    });
 
-        expect(moment('2015-02-12 08:00').rentalDays('2015-02-04 08:00'))
+    it('gets rental day breakdown between 2015-05-01 and 2015-05-02', function () {
+
+        expect(moment('2015-05-04 08:00').rentalDays('2015-05-01 08:00'))
             .toEqual({
-                days: 0,
-                fourWeeks: 0,
-                rentalDays: 6,
-                weeks: 1
+                Day: 1,
+                FourWeek: 0,
+                RentalDays: 1,
+                Week: 0
             });
-     });
-});
+    });
 
-describe('rentalDays', function () {
+    it('gets rental day breakdown between 2015-05-01 and 2015-05-11', function () {
 
-     it('gets rental day breakdown between 2015-02-04 and 2015-02-12 including saturdays', function () {
+        expect(moment('2015-05-11 08:00').rentalDays('2015-05-01 08:00'))
+            .toEqual({
+                Day: 1,
+                FourWeek: 0,
+                RentalDays: 6,
+                Week: 1
+            });
+    });
 
-        var moment = require('moment');
-        var momentRental = require('../momentjs-rental');
+    it('gets rental day breakdown between 2015-05-01 and 2015-05-14', function () {
+
+        expect(moment('2015-05-14 08:00').rentalDays('2015-05-01 08:00'))
+            .toEqual({
+                Day: 0,
+                FourWeek: 0,
+                RentalDays: 9,
+                Week: 2
+            });
+    });
+
+    it('gets rental day breakdown between 2015-02-04 and 2015-02-12 including saturdays', function () {
 
         expect(moment('2015-02-12 08:00').rentalDays('2015-02-04 08:00', true))
             .toEqual({
-                days: 0,
-                fourWeeks: 0,
-                rentalDays: 7,
-                weeks: 1
+                Day: 2,
+                FourWeek: 0,
+                RentalDays: 7,
+                Week: 1
             });
      });
 });
-
