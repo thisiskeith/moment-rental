@@ -25,20 +25,19 @@ moment(endDate).rentalDays(startDate[, saturdays]);
 
 ## Installation
 
-#### Add dependency to package.json
+#### Install package
 ```js
-"dependencies": {
-    "moment-rental": "git+ssh://git@github.com:thisiskeith/moment-rental.git"
-}
-```
-#### Add to application
-```js
-npm install
+npm i moment-rental -S
 ```
 #### Require in project
 ```js
+// ES5
 var moment = require('moment');
 require('moment-rental');
+
+// ES6
+import moment from 'moment';
+import moment-rental;
 ```
 
 ## Examples
