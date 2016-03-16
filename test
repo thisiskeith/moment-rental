@@ -1,0 +1,3 @@
+#!/bin/bash
+
+mocha __tests__ --compilers js:babel/register

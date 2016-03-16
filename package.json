@@ -4,8 +4,7 @@
   "description": "Fork of moment-business to support Saturdays and rental day breakdown",
   "main": "moment-rental.js",
   "scripts": {
-    "lint": "eslint moment-rental.js",
-    "test": "jest"
+    "lint": "eslint moment-rental.js"
   },
   "repository": {
     "type": "git",
@@ -25,8 +24,8 @@
   },
   "homepage": "https://github.com/thisiskeith/moment-rental",
   "devDependencies": {
-    "jest-cli": "^0.4.0",
-    "eslint": "^0.18.0"
+    "eslint": "^0.18.0",
+    "mocha": "^2.4.5"
   },
   "dependencies": {
     "moment": "^2.9.0"
