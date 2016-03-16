@@ -1,8 +1,8 @@
 {
   "name": "moment-rental",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Fork of moment-business to support Saturdays and rental day breakdown",
-  "main": "moment-rental.js",
+  "main": "lib/moment-rental.js",
   "scripts": {
     "lint": "eslint moment-rental.js"
   },
